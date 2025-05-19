@@ -1,0 +1,40 @@
+<div class="container mt-4">
+  <h2 class="text-center text-primary">Gestión de Usuarios</h2>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="row g-3">
+    <div class="col-md-6">
+      <input class="form-control" formControlName="name" placeholder="Nombre"
+        [ngClass]="{'is-invalid': form.get('name')?.invalid && form.get('name')?.touched}" />
+      <div class="invalid-feedback" *ngIf="form.get('name')?.errors?.['required']">
+        El nombre es obligatorio.
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <input class="form-control" formControlName="email" placeholder="Correo electrónico"
+        [ngClass]="{'is-invalid': form.get('email')?.invalid && form.get('email')?.touched}" />
+      <div class="invalid-feedback" *ngIf="form.get('email')?.errors?.['required']">
+        El correo es obligatorio.
+      </div>
+      <div class="invalid-feedback" *ngIf="form.get('email')?.errors?.['email']">
+        El correo no es válido.
+      </div>
+    </div>
+
+    <div class="col-12">
+      <button type="submit" class="btn btn-success w-100">
+        {{ editingUserId ? 'Actualizar' : 'Agregar' }}
+      </button>
+      <button type="button" class="btn btn-secondary w-100 mt-2" *ngIf="editingUserId" (click)="cancelEdit()">
+        Cancelar edición
+      </button>
+
+    </div>
+  </form>
+
+
+  <div class="mt-4">
+    <app-user-card *ngFor="let user of users" [user]="user" (edit)="onEdit($event)"
+      (remove)="onRemove($event)"></app-user-card>
+  </div>
+</div>
